@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import CoupangBanner from "@/components/CoupangBanner";
 
 const geist = Geist({ subsets: ["latin"] });
 
@@ -19,18 +20,7 @@ export default function RootLayout({
     <html lang="ko" className={`${geist.className} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-gray-50">
         <Header />
-        {/* 쿠팡 파트너스 배너 */}
-        <div className="w-full bg-white border-b border-gray-100">
-          <iframe
-            src="https://coupa.ng/cmTCsr"
-            width="100%"
-            height="75"
-            frameBorder="0"
-            scrolling="no"
-            referrerPolicy="unsafe-url"
-            style={{ display: 'block' }}
-          />
-        </div>
+        <CoupangBanner />
         <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
           {children}
         </main>
