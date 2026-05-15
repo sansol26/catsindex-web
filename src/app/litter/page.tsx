@@ -88,7 +88,7 @@ export default async function LitterPage({
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col lg:flex-row gap-6">
       {/* 브랜드 사이드바 */}
       <Suspense>
         <BrandSidebar brands={FEATURED_LITTER_BRANDS} />
