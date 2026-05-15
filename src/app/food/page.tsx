@@ -5,6 +5,22 @@ import type { SortOption } from '@/lib/supabase';
 import ProductCard from '@/components/ProductCard';
 import SearchBar from '@/components/SearchBar';
 import FilterBar from '@/components/FilterBar';
+import BrandSidebar from '@/components/BrandSidebar';
+
+const FEATURED_FOOD_BRANDS = [
+  { name: '로얄캐닌', label: '로얄캐닌' },
+  { name: '힐스', label: '힐스' },
+  { name: '오리젠', label: '오리젠' },
+  { name: '아카나', label: '아카나' },
+  { name: '퓨리나', label: '퓨리나' },
+  { name: '이나바', label: '이나바' },
+  { name: '모노지', label: '모노지' },
+  { name: '네추럴코어', label: '네추럴코어' },
+  { name: '쉬바', label: '쉬바' },
+  { name: '위시카', label: '위시카' },
+  { name: '카르나4', label: '카르나4' },
+  { name: '파미나', label: '파미나' },
+];
 
 export const revalidate = 0;
 
@@ -73,67 +89,76 @@ export default async function FoodPage({
   }
 
   return (
-    <div className="space-y-5">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">🥩 고양이 사료 최저가</h1>
-        <p className="text-sm text-gray-500">
-          매일 새벽 자동 업데이트 · 총 {total.toLocaleString()}개
-          {q && ` · "${q}" 검색 결과`}
-        </p>
-      </div>
-
-      <Suspense><SearchBar placeholder="사료 이름 또는 브랜드 검색..." /></Suspense>
-
-      {/* 서브카테고리 */}
-      <div className="flex gap-2 flex-wrap">
-        {SUBCATEGORIES.map(({ value, label }) => {
-          const active = (sub ?? null) === value;
-          return (
-            <Link key={label} href={buildHref({ sub: value, page: null })}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                active ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-orange-300'
-              }`}
-            >
-              {label}
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* 정렬 + 필터 */}
+    <div className="flex gap-6">
+      {/* 브랜드 사이드바 */}
       <Suspense>
-        <FilterBar unitTypes={FOOD_UNIT_TYPES} unitPriceLabel="원/kg 또는 원/100g" brands={brands} />
+        <BrandSidebar brands={FEATURED_FOOD_BRANDS} />
       </Suspense>
 
-      {products.length === 0 ? (
-        <div className="text-center py-20 text-gray-400">
-          {q ? `"${q}"에 해당하는 제품이 없어요 😿` : '아직 데이터를 수집 중이에요 🐱'}
+      {/* 메인 콘텐츠 */}
+      <div className="flex-1 min-w-0 space-y-5">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">🥩 고양이 사료 최저가</h1>
+          <p className="text-sm text-gray-500">
+            매일 새벽 자동 업데이트 · 총 {total.toLocaleString()}개
+            {q && ` · "${q}" 검색 결과`}
+            {brand && ` · ${brand}`}
+          </p>
         </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {products.map(p => <ProductCard key={p.id} product={p} />)}
-          </div>
 
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-4">
-              {page > 1 && (
-                <Link href={buildHref({ page: String(page - 1) })}
-                  className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-xl hover:border-orange-300 transition-colors">
-                  ← 이전
-                </Link>
-              )}
-              <span className="text-sm text-gray-500">{page} / {totalPages} 페이지</span>
-              {page < totalPages && (
-                <Link href={buildHref({ page: String(page + 1) })}
-                  className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-xl hover:border-orange-300 transition-colors">
-                  다음 →
-                </Link>
-              )}
+        <Suspense><SearchBar placeholder="사료 이름 또는 브랜드 검색..." /></Suspense>
+
+        {/* 서브카테고리 */}
+        <div className="flex gap-2 flex-wrap">
+          {SUBCATEGORIES.map(({ value, label }) => {
+            const active = (sub ?? null) === value;
+            return (
+              <Link key={label} href={buildHref({ sub: value, page: null })}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  active ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-orange-300'
+                }`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* 정렬 + 필터 */}
+        <Suspense>
+          <FilterBar unitTypes={FOOD_UNIT_TYPES} unitPriceLabel="원/kg 또는 원/100g" brands={brands} />
+        </Suspense>
+
+        {products.length === 0 ? (
+          <div className="text-center py-20 text-gray-400">
+            {q ? `"${q}"에 해당하는 제품이 없어요 😿` : '아직 데이터를 수집 중이에요 🐱'}
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
+              {products.map(p => <ProductCard key={p.id} product={p} />)}
             </div>
-          )}
-        </>
-      )}
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 pt-4">
+                {page > 1 && (
+                  <Link href={buildHref({ page: String(page - 1) })}
+                    className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-xl hover:border-orange-300 transition-colors">
+                    ← 이전
+                  </Link>
+                )}
+                <span className="text-sm text-gray-500">{page} / {totalPages} 페이지</span>
+                {page < totalPages && (
+                  <Link href={buildHref({ page: String(page + 1) })}
+                    className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-xl hover:border-orange-300 transition-colors">
+                    다음 →
+                  </Link>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
