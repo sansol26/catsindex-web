@@ -8,16 +8,17 @@ import FilterBar from '@/components/FilterBar';
 import BrandSidebar from '@/components/BrandSidebar';
 
 const FEATURED_LITTER_BRANDS = [
-  { name: '아이캣', label: '아이캣' },
-  { name: '그린다이아몬드', label: '그린다이아몬드' },
-  { name: '오코', label: '오코' },
-  { name: '크린캣', label: '크린캣' },
-  { name: '네꼬모리', label: '네꼬모리' },
-  { name: '무무', label: '무무' },
   { name: '냥쌤', label: '냥쌤' },
-  { name: '퓨어클라우드', label: '퓨어클라우드' },
+  { name: '포우장', label: '포우장' },
+  { name: '아메리칸솔루션', label: '아메리칸솔루션' },
+  { name: '무무', label: '무무' },
+  { name: '네꼬모리', label: '네꼬모리' },
   { name: '탐사', label: '탐사' },
-  { name: '더그린', label: '더그린' },
+  { name: '오코', label: '오코' },
+  { name: '그린다이아몬드', label: '그린다이아몬드' },
+  { name: '크린캣', label: '크린캣' },
+  { name: '아이캣', label: '아이캣' },
+  { name: '퓨어클라우드', label: '퓨어클라우드' },
 ];
 
 export const revalidate = 0;
