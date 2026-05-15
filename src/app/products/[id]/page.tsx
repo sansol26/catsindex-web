@@ -5,8 +5,36 @@ import { ExternalLink, ArrowLeft, TrendingDown, TrendingUp, Store } from 'lucide
 import { getProduct, getPriceHistory, getStorePrices } from '@/lib/supabase';
 import { formatUnitPrice } from '@/lib/unitPrice';
 import PriceChart from '@/components/PriceChart';
+import type { Metadata } from 'next';
 
 export const revalidate = 3600;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProduct(id);
+  if (!product) return {};
+
+  const price = product.current_price.toLocaleString();
+  const title = `${product.name} 최저가 ${price}원`;
+  const description = `${product.name} 최저가 ${price}원. 매일 업데이트되는 가격 정보와 스토어별 비교를 확인하세요.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: product.image_url ? [{ url: product.image_url }] : [],
+    },
+    alternates: {
+      canonical: `https://www.catsindex.co.kr/products/${id}`,
+    },
+  };
+}
 
 export default async function ProductPage({
   params,

@@ -7,8 +7,30 @@ import CoupangBanner from "@/components/CoupangBanner";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CatsIndex — 고양이 사료·모래 최저가 트래커",
-  description: "매일 업데이트되는 고양이 사료와 모래 최저가를 확인하고 AI 추천을 받아보세요.",
+  title: {
+    default: "CatsIndex — 고양이 사료·모래 최저가 트래커",
+    template: "%s | CatsIndex",
+  },
+  description: "매일 업데이트되는 고양이 사료와 모래 최저가를 확인하고 AI 추천을 받아보세요. 로얄캐닌, 힐스, 오리젠 등 인기 브랜드 최저가 비교.",
+  keywords: ["고양이사료", "고양이모래", "최저가", "로얄캐닌", "힐스", "오리젠", "고양이용품", "사료비교", "모래비교"],
+  authors: [{ name: "CatsIndex" }],
+  metadataBase: new URL("https://www.catsindex.co.kr"),
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: "https://www.catsindex.co.kr",
+    siteName: "CatsIndex",
+    title: "CatsIndex — 고양이 사료·모래 최저가 트래커",
+    description: "매일 업데이트되는 고양이 사료와 모래 최저가를 확인하고 AI 추천을 받아보세요.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CatsIndex — 고양이 사료·모래 최저가 트래커",
+    description: "매일 업데이트되는 고양이 사료와 모래 최저가를 확인하고 AI 추천을 받아보세요.",
+  },
+  alternates: {
+    canonical: "https://www.catsindex.co.kr",
+  },
 };
 
 export default function RootLayout({
