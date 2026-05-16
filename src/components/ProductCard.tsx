@@ -39,6 +39,17 @@ export default function ProductCard({ product }: { product: Product }) {
             fill
             className="object-contain p-3"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              target.style.display = 'none';
+              const parent = target.parentElement;
+              if (parent && !parent.querySelector('.img-fallback')) {
+                const fallback = document.createElement('div');
+                fallback.className = 'img-fallback absolute inset-0 flex items-center justify-center text-4xl';
+                fallback.textContent = '🐱';
+                parent.appendChild(fallback);
+              }
+            }}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-4xl">🐱</div>
